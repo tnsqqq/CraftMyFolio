@@ -2,16 +2,15 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { router as authRouter } from "./route/authRoutes.js";
-import { router as folioRouter} from "./route/folioRoutes.js";
-
+import { router as folioRouter } from "./route/folioRoutes.js";
 
 const app = express();
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
     credentials: true,
-  }),
+  })
 );
 
 app.use(express.json());

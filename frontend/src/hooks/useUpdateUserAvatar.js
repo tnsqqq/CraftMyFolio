@@ -1,6 +1,7 @@
 // In a new file: src/hooks/useUpdateUserAvatar.js
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getApiUrl } from "../config/api";
 import { useAuth } from "./useAuth";
 
 // This hook is ONLY for uploading the avatar file
@@ -13,7 +14,7 @@ export const useUpdateUserAvatar = (onClose) => {
       const formData = new FormData();
       formData.append("avatar", file);
 
-      const res = await fetch(`${import.meta.env.VITE_BE_URL}/me/avatar`, {
+      const res = await fetch(getApiUrl("/me/avatar"), {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -1,10 +1,11 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { templateInfo } from "../folioTemplate/index.js"; 
+import { templateInfo } from "../folioTemplate/index.js";
+import { getApiUrl } from "../config/api";
 
 // Placeholder for your environment variable
-const API_BASE_URL = `${import.meta.env.VITE_BE_URL}`; 
+const API_BASE_URL = getApiUrl("");
 
 // --- Loading Component ---
 const FullPageLoader = () => (
@@ -29,12 +30,12 @@ const ErrorView = ({ message }) => (
 // --- Data Fetcher ---
 const fetchPublicFolio = async (slug) => {
   const res = await fetch(`${API_BASE_URL}/folio/${slug}`);
-  
+
   if (!res.ok) {
     // This handles 404s (portfolio not found) or 500s
     throw new Error('Portfolio not found');
   }
-  
+
   return res.json();
 };
 
@@ -46,7 +47,7 @@ const PublicFolioPage = () => {
   // 2. Fetch the public data
   // We use the slug as the unique query key so caching works per-portfolio
   const { data, isLoading, error } = useQuery({
-    queryKey: ['folio', slug], 
+    queryKey: ['folio', slug],
     queryFn: () => fetchPublicFolio(slug),
     retry: 1, // Don't retry too many times if it's a 404
     staleTime: 1000 * 60 * 5, // Cache for 5 minutes (public data changes rarely)

@@ -1,17 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
+import { getApiUrl } from "../config/api";
 // 1. We must now import useAuth from the hook file, not the context file
-import { useAuth } from "../hooks/useAuth"; 
+import { useAuth } from "../hooks/useAuth";
 
 const fetchUserData = async (token) => {
   // If there's no token, don't even try to fetch
   if (!token) return null;
 
   try {
-    const res = await fetch(`${import.meta.env.VITE_BE_URL}/me`, {
+    const res = await fetch(getApiUrl("/me"), {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization : `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -35,7 +36,7 @@ const fetchUserData = async (token) => {
 
 export function useUser() {
   // 2. Get BOTH 'token' and 'logout' from useAuth
-  const { token, logout } = useAuth(); 
+  const { token, logout } = useAuth();
 
   return useQuery({
 
@@ -44,7 +45,7 @@ export function useUser() {
     queryFn: () => fetchUserData(token),
 
     enabled: !!token,
-    
+
     // 3. NEW: Add an onError handler
     onError: (error) => {
       // Check if the error is an authentication error
@@ -54,14 +55,14 @@ export function useUser() {
         'Failed to authenticate token.',
         'No user found with this token'
       ];
-      
+
       if (authErrorMessages.includes(error.message)) {
         console.error("Invalid token detected. Logging out...");
         // This is the fix! We call logout() to clear the bad token.
         logout();
       }
     },
-    
+
     // 4. Update retry logic
     retry: (failureCount, error) => {
       // Don't retry if it was an auth error (we just logged out)

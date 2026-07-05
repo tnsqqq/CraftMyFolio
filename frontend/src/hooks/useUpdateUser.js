@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getApiUrl } from "../config/api";
 import { useAuth } from "./useAuth"; // Import useAuth to get token
 
 /**
@@ -11,7 +12,7 @@ export const useUpdateUser = (onClose) => {
 
   return useMutation({
     mutationFn: (updatedData) => {
-      return fetch(`${import.meta.env.VITE_BE_URL}/me`, {
+      return fetch(getApiUrl("/me"), {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -26,7 +27,7 @@ export const useUpdateUser = (onClose) => {
     onSuccess: () => {
       // Invalidate the 'user' query to trigger a re-fetch
       queryClient.invalidateQueries({ queryKey: ['user'] });
-      if(onClose) onClose(); // Close the modal
+      if (onClose) onClose(); // Close the modal
     },
     onError: (error) => {
       console.error("Update failed:", error.message);

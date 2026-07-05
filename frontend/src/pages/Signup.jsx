@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { getApiUrl } from "../config/api";
 // 1. UPDATED: Import the correct hook
 import { useAuth } from "../hooks/useAuth";
-import {CameraIcon , PlusIcon , TrashIcon}  from '../components/ui/icons.jsx'
+import { CameraIcon, PlusIcon, TrashIcon } from '../components/ui/icons.jsx'
 
 // --- Reusable Components ---
 
@@ -775,8 +776,8 @@ const SignUpForm = () => {
         const expErrors = [];
         // Only validate if there are experience entries
         if (formData.experience.length === 0) {
-            // If they toggled 'yes' but added no entries, add one
-            addExperience();
+          // If they toggled 'yes' but added no entries, add one
+          addExperience();
         }
         formData.experience.forEach((exp, index) => {
           const error = {};
@@ -820,7 +821,7 @@ const SignUpForm = () => {
   //         .map((s) => s.trim())
   //         .filter(Boolean),
   //     };
-      
+
   //     // 6. UPDATED: Clean up experience data before sending
   //     if (finalData.hasExperience) {
   //       finalData.experience = finalData.experience.map(exp => {
@@ -832,10 +833,10 @@ const SignUpForm = () => {
   //     } else {
   //       finalData.experience = [];
   //     }
-      
+
   //     delete finalData.confirmPassword;
   //     delete finalData.hasExperience;
-      
+
   //     // We don't need to send the avatar file in the JSON
   //     // This needs to be handled with FormData, which is a bigger change.
   //     // For now, let's remove it from the JSON payload.
@@ -853,11 +854,11 @@ const SignUpForm = () => {
   //       });
 
   //       const result = await response.json(); // Read the response
-        
+
   //       if (!response.ok) {
   //         throw new Error(result.message || "Something went wrong");
   //       }
-        
+
   //       // console.log("Server Response:", result);
   //       alert("Signed up successfully! Redirecting to Login Page.");
   //       navigate("/signin");
@@ -868,85 +869,85 @@ const SignUpForm = () => {
   //   }
   // };
 
-const handleSubmit = async () => {
-  if (validateStep()) {
+  const handleSubmit = async () => {
+    if (validateStep()) {
 
-    // 1. Prepare the final cleaned data (same as before)
-    const finalData = {
-      ...formData,
-      skills: formData.skills
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean),
-    };
+      // 1. Prepare the final cleaned data (same as before)
+      const finalData = {
+        ...formData,
+        skills: formData.skills
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+      };
 
-    if (finalData.hasExperience) {
-      finalData.experience = finalData.experience.map(exp =>
-        exp.isCurrent ? { ...exp, to: null } : exp
-      );
-    } else {
-      finalData.experience = [];
-    }
-
-    delete finalData.confirmPassword;
-    delete finalData.hasExperience;
-
-    // --- IMPORTANT CHANGE BELOW ---
-
-    // 2. Create FormData (instead of JSON)
-    const fd = new FormData();
-
-    // 3. Append normal fields
-    for (const key in finalData) {
-      if (key === "avatar") continue; // handle separately
-      if (Array.isArray(finalData[key])) {
-        // Handle array correctly
-        finalData[key].forEach((item, idx) => {
-          if (typeof item === "object") {
-            // Object inside array (education, experience)
-            for (const field in item) {
-              fd.append(`${key}[${idx}][${field}]`, item[field]);
-            }
-          } else {
-            // Simple array (skills)
-            fd.append(`${key}[]`, item);
-          }
-        });
+      if (finalData.hasExperience) {
+        finalData.experience = finalData.experience.map(exp =>
+          exp.isCurrent ? { ...exp, to: null } : exp
+        );
       } else {
-        fd.append(key, finalData[key]);
-      }
-    }
-
-    // 4. Append the file (THIS is what Multer reads)
-    if (finalData.avatar) {
-      fd.append("avatar", finalData.avatar); 
-    }
-
-    console.log("Sending FormData…");
-    console.log(finalData)
-
-    // 5. Send the request (IMPORTANT: no JSON headers)
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BE_URL}/signup`, {
-        method: "POST",
-        body: fd, // ← FormData here
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || "Something went wrong");
+        finalData.experience = [];
       }
 
-      alert("Signed up successfully! Redirecting to Login Page.");
-      navigate("/signin");
+      delete finalData.confirmPassword;
+      delete finalData.hasExperience;
 
-    } catch (error) {
-      console.error("Submission Failed:", error);
-      alert(`Error: ${error.message}`);
+      // --- IMPORTANT CHANGE BELOW ---
+
+      // 2. Create FormData (instead of JSON)
+      const fd = new FormData();
+
+      // 3. Append normal fields
+      for (const key in finalData) {
+        if (key === "avatar") continue; // handle separately
+        if (Array.isArray(finalData[key])) {
+          // Handle array correctly
+          finalData[key].forEach((item, idx) => {
+            if (typeof item === "object") {
+              // Object inside array (education, experience)
+              for (const field in item) {
+                fd.append(`${key}[${idx}][${field}]`, item[field]);
+              }
+            } else {
+              // Simple array (skills)
+              fd.append(`${key}[]`, item);
+            }
+          });
+        } else {
+          fd.append(key, finalData[key]);
+        }
+      }
+
+      // 4. Append the file (THIS is what Multer reads)
+      if (finalData.avatar) {
+        fd.append("avatar", finalData.avatar);
+      }
+
+      console.log("Sending FormData…");
+      console.log(finalData)
+
+      // 5. Send the request (IMPORTANT: no JSON headers)
+      try {
+        const response = await fetch(getApiUrl("/signup"), {
+          method: "POST",
+          body: fd, // ← FormData here
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message || "Something went wrong");
+        }
+
+        alert("Signed up successfully! Redirecting to Login Page.");
+        navigate("/signin");
+
+      } catch (error) {
+        console.error("Submission Failed:", error);
+        alert(`Error: ${error.message}`);
+      }
     }
-  }
-};
+  };
 
 
   const totalSteps = 5;

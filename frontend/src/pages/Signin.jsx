@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import FormButton from "../components/FormButton";
 import FormInput from "../components/FormInput";
+import { getApiUrl } from "../config/api";
 // 1. Corrected import path for your new hook
 import { useAuth } from "../hooks/useAuth";
 
@@ -131,7 +132,7 @@ const SignIn = () => {
     setIsSubmitting(true); // Disable button
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_BE_URL}/signin`, {
+      const res = await fetch(getApiUrl("/signin"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -145,7 +146,7 @@ const SignIn = () => {
         // Use the error message from the backend
         throw new Error(response.message || "Something went wrong");
       }
-      
+
       // 4. This is the main fix!
       // Our new 'login' function only wants the token.
       // Assuming response is { data: { user: {...}, token: "..." } }
