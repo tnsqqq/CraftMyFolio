@@ -26,8 +26,15 @@ const protect = async (req, res, next) => {
       // 5. If everything is successful, call next() to proceed to the route handler
       next();
     } catch (error) {
-      console.error(error);
-      return res.status(401).json({ message: "Not authorized, token failed" });
+      // Only log non-token-expiration errors
+      if (error.name !== "TokenExpiredError") {
+        console.error("Auth error:", error.message);
+      }
+      return res.status(401).json({ 
+        message: error.name === "TokenExpiredError" 
+          ? "Token expired, please login again" 
+          : "Not authorized, token failed" 
+      });
     }
   }
 

@@ -1,0 +1,158 @@
+{
+  "attendance_records": [
+    {
+      "id": "ATT001",
+      "employee_id": "EMP12345",
+      "employee_name": "Rajesh Kumar",
+      "designation": "Station Master",
+      "department": "Station Operations",
+      "date": "2026-05-20",
+      "day": "Tuesday",
+      "check_in_time": "06:45:00",
+      "check_out_time": "14:15:00",
+      "working_hours": 7.5,
+      "status": "Present",
+      "remarks": "Regular duty"
+    },
+    {
+      "id": "ATT002",
+      "employee_id": "EMP12346",
+      "employee_name": "Priya Singh",
+      "designation": "Ticket Collector",
+      "department": "Ticket Counter",
+      "date": "2026-05-20",
+      "day": "Tuesday",
+      "check_in_time": "08:00:00",
+      "check_out_time": "17:00:00",
+      "working_hours": 9,
+      "status": "Present",
+      "remarks": "Completed full shift"
+    },
+    {
+      "id": "ATT003",
+      "employee_id": "EMP12347",
+      "employee_name": "Amit Patel",
+      "designation": "Guard",
+      "department": "Train Operations",
+      "date": "2026-05-20",
+      "day": "Tuesday",
+      "check_in_time": null,
+      "check_out_time": null,
+      "working_hours": 0,
+      "status": "Absent",
+      "remarks": "Leave approved - Medical"
+    },
+    {
+      "id": "ATT004",
+      "employee_id": "EMP12348",
+      "employee_name": "Meera Sharma",
+      "designation": "Cleaner",
+      "department": "Maintenance",
+      "date": "2026-05-20",
+      "day": "Tuesday",
+      "check_in_time": "07:00:00",
+      "check_out_time": "14:30:00",
+      "working_hours": 7.5,
+      "status": "Present",
+      "remarks": "Regular duty"
+    },
+    {
+      "id": "ATT005",
+      "employee_id": "EMP12349",
+      "employee_name": "Vikram Singh",
+      "designation": "Loco Pilot",
+      "department": "Train Operations",
+      "date": "2026-05-20",
+      "day": "Tuesday",
+      "check_in_time": "05:30:00",
+      "check_out_time": "13:45:00",
+      "working_hours": 8.25,
+      "status": "Present",
+      "remarks": "Express train duty"
+    },
+    {
+      "id": "ATT006",
+      "employee_id": "EMP12350",
+      "employee_name": "Sneha Gupta",
+      "designation": "Station Attendant",
+      "department": "Station Operations",
+      "date": "2026-05-20",
+      "day": "Tuesday",
+      "check_in_time": "08:30:00",
+      "check_out_time": null,
+      "working_hours": 0,
+      "status": "Late",
+      "remarks": "Check-in at 08:30, scheduled at 08:00 (30 minutes late)"
+    },
+    {
+      "id": "ATT007",
+      "employee_id": "EMP12351",
+      "employee_name": "Rohan Deshmukh",
+      "designation": "Porter",
+      "department": "Luggage Handling",
+      "date": "2026-05-20",
+      "day": "Tuesday",
+      "check_in_time": "06:00:00",
+      "check_out_time": "14:00:00",
+      "working_hours": 8,
+      "status": "Present",
+      "remarks": "Regular duty"
+    },
+    {
+      "id": "ATT008",
+      "employee_id": "EMP12352",
+      "employee_name": "Anjali Reddy",
+      "designation": "RPF Constable",
+      "department": "Railway Police Force",
+      "date": "2026-05-20",
+      "day": "Tuesday",
+      "check_in_time": "07:00:00",
+      "check_out_time": "15:30:00",
+      "working_hours": 8.5,
+      "status": "Present",
+      "remarks": "Patrol duty completed"
+    }
+  ],
+  "summary": {
+    "date": "2026-05-20",
+    "total_employees": 8,
+    "present": 6,
+    "absent": 1,
+    "late": 1,
+    "on_leave": 1,
+    "average_working_hours": 7.78,
+    "total_working_hours": 62.25
+  },
+  "department_summary": {
+    "Station Operations": {
+      "employees": 2,
+      "present": 2,
+      "absent": 0
+    },
+    "Ticket Counter": {
+      "employees": 1,
+      "present": 1,
+      "absent": 0
+    },
+    "Train Operations": {
+      "employees": 2,
+      "present": 1,
+      "absent": 1
+    },
+    "Maintenance": {
+      "employees": 1,
+      "present": 1,
+      "absent": 0
+    },
+    "Luggage Handling": {
+      "employees": 1,
+      "present": 1,
+      "absent": 0
+    },
+    "Railway Police Force": {
+      "employees": 1,
+      "present": 1,
+      "absent": 0
+    }
+  }
+}
